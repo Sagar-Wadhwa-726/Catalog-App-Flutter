@@ -1,0 +1,111 @@
+----------------------------------------------------- NOTES --------------------------------------------- 
+
+1.) OVERRIDING THE METHOD : This means that we are providing the defination of a already defined function,
+everyone overrides this method and provides their own defination of this method.
+
+2.)  BUILDCONTEXT : What happens is that in our application everything is build in the form of a tree. The 
+variable context which is of type BuildContext can tell us the location of a specific element/widget in the build
+tree. Tells it position.
+
+3.) For dark theme, use themeMode attribute. It will have the property as a widget which is ThemeMode.dark, then 
+specify the code for dark theme using the attribute darkTheme which takes the widget as ThemeData. 
+
+4.) if we are using routes, then we can not specify the home attribute of the material app.
+
+5.) Ideally we should not specify the font size, since we need different size over differnt devices (web, tv etc.)
+Or we should specify the font size at such a place where it is easily changeable.
+
+6.) If a widget is carrying only one widget in itself, then it is known as the child widget, but if there are 
+mutliple widgets in a widget, then those are known as the children of the parent widget. Example of children: 
+listView widget
+
+7.) images, icond, json should be added to assets folder. Remember to uncomment asset section from pubspec.yaml
+file to notify the yaml file that all the assets are now present in the assets/images location.
+
+8.) For row, the main axis is horizontal and for column the main axis is vertical
+
+9.) use pub.dev for plugins/packages which can be imported form the internet
+
+10.) To change the font style of the text in the whole application, you need to change the font family of the 
+material app in the main.dart file
+
+11.) For the login page, we need userid and password, for taking this from the user we can use textField and the
+textFormField, where the latter has advantages, Use it blindly as of now.
+
+12.) For having some space in between the two formfields, wrap them in column and wrap the column with padding
+
+13.) If the device were to be small, then atleast wrap the main column in a scrolling container, so that at 
+least the content can be scrolled and we do not get an overflow error
+
+14.) routes can be put in a utilities folder, named routes.dart
+
+15.) What is state in flutter ? --> State is something which can be changed. For example, 
+I can have the state of running, sleeping, stopped, cooking etc. So basically this change is known
+as the chagne in the state.
+
+16.) Stateless widgets are those widgets which specifies that inside this screen no widget will ever 
+change throughout its lifetime. Here username and the password textFormField are abstracted and 
+extend the statful widget class, since there state is changing everytime we enter some character
+in the username or the password field.
+
+17.) class _LoginPageState extends the state class which gives us the access to the state of the 
+login page screen. Through extending this state class only we get the chance of changing the state
+of the login page screen. Underscore specifies that it is private. statful Widget have 2 classes.
+
+18.) whenever the state of a widget changes, the whole widget tree has to be rebuild. For this 
+build method has to be called, but it should not be called directly, rather we should use setState
+method, which internally calls the build method only which in turn build the whole app (that screen)
+and renders it again.
+
+19.) We can replace the elevated button and make our own button using the container, but this widget
+is not clickable, to make it clickable we can use two things which are InkWell and justerdetector
+The difference is that justerdetector does not gives any feed back (ripple effect) whereas InkWell 
+can give feedback (rippleffect).
+
+20.) Next thing is that we have added the onTap property which can give us the ripple effect, but
+since this is for the container, it does not support animations, for animations, use AnimatedContainer
+and specify the time duration for which the animation has to be executed.   
+
+21.) splash color on the inkwell will be applied on the back and not on the top since its ancestor 
+is not a material app. To resolve this we can use ink instead of container, ink is similar to container
+but provides more option regarding the decoration part. Ink can also provide and show the ripple 
+effect which was not possible in case of animated container.
+
+22.) We do not want to use ink since we want animation (that's the reason we were using AnimatedContainer),
+so instead wrap InkWell with material, but still ripple effect will not work, since the decoration
+part has been specified inside the AnimatedContainer. Move it to the material widget section.
+
+23.) ALWAYS REMEMBER --> WHENEVER WE ARE GIVING AN ANCESTOR, THEN ITS CHILD SHOULD NOT HAVE 
+ANY DECORATION.
+
+24.) two things have to be fixed, firstly when we go back to login from home, tick should become login
+again and username and password should not be empty to login. for fixing the icon, just setState 
+of change button to false again as it was earlier.
+
+25.) For fixing null password and username problem, we can use form which is used where we want to 
+make the user enter or fill a form. So wrap whole column/username-password field with form. Now to 
+interact with this form we need a formkey.
+
+26.) https://docs.flutter.dev/development/ui/layout/constraints --> read this blog
+to understand why the avatar (profile icon) image dimension's can't be changed.
+
+27.) CONSTRAINTS GO DOWN .......... SIZES GO UP....... PARENT SETS THE POSITION
+
+28.) Since this is a catalog app, so there will be a list of items. ListView can be used for this. ListView builder is the same as recycler view in 
+android studio.
+
+29.) Local Files / Load and decode json. Whenever the data is fetched from the api or stored in the 
+server, the data is mostly in the form of json.
+
+30.) We have to tell the flutter engine that a files folder exists from where we 
+want to take the data. This can be done by making an entry of assets in the pubspec.yaml file
+which is the main configuration file.
+
+31.) Each flutter app has a rootBundle object for the easy access to the main asset bundle
+
+32.) After loading the json data in the form of string, now the string data has to be decoded. This 
+can be done by another library provided by dart which is dart convert. It gives a json encoder and 
+decoder.
+
+33.) To create the fromMap factory constructor and toMap method, instead of maually doing it we 
+can use the dart data class generator.
