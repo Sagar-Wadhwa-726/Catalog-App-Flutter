@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/models/catalog.dart';
 import 'dart:convert';
-import '../widgets/Item_widget.dart';
 import '../widgets/drawer.dart';
 
 // Converted HomePage to stateful widget since on the home page firstly data will
@@ -58,20 +57,51 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     // Scaffold is a widget, material is a widget
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Catalog App"),
-      ),
       body: Padding(
         padding: const EdgeInsets.all(15.0),
         child: (CatalogModel.items.isNotEmpty)
-            ? ListView.builder(
-                itemCount: CatalogModel.items.length,
-                itemBuilder: ((context, index) {
-                  // Specifies how the items are to be shown
-                  return ItemWidget(
-                    item: CatalogModel.items[index],
+            ? GridView.builder(
+                // Specifies the number of items in each row
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 16,
+                  crossAxisSpacing: 16,
+                ),
+                itemBuilder: (context, index) {
+                  final item = CatalogModel.items[index];
+                  return Card(
+                    clipBehavior: Clip.antiAlias,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: GridTile(
+                      header: Container(
+                        padding: EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: Colors.deepPurple,
+                        ),
+                        child: Text(
+                          item.name,
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      footer: Container(
+                        padding: EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: Colors.black,
+                        ),
+                        child: Text(
+                          item.price.toString(),
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      child: Image.network(item.image),
+                    ),
                   );
-                }),
+                },
+                itemCount: CatalogModel.items.length,
               )
             : Center(
                 child: CircularProgressIndicator(),

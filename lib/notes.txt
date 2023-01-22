@@ -109,3 +109,5 @@ decoder.
 
 33.) To create the fromMap factory constructor and toMap method, instead of maually doing it we 
 can use the dart data class generator.
+
+34.) Every scrollable item has a SliverGridDelegate behind it
