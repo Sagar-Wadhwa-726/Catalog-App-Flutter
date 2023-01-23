@@ -1,7 +1,7 @@
-// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, avoid_print, sized_box_for_whitespace, use_build_context_synchronously
+// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, avoid_print, sized_box_for_whitespace, use_build_context_synchronously, deprecated_member_use
 
 import 'package:flutter/material.dart';
-
+import 'package:velocity_x/velocity_x.dart';
 import '../utils/routes.dart';
 
 class LoginPage extends StatefulWidget {
@@ -40,7 +40,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Material(
-        color: Colors.white,
+        color: context.canvasColor,
         child: SingleChildScrollView(
           child: Form(
             key: _formKey,
@@ -106,7 +106,7 @@ class _LoginPageState extends State<LoginPage> {
                   height: 40.0,
                 ),
                 Material(
-                  color: Colors.deepPurple,
+                  color: context.theme.buttonColor,
                   borderRadius: BorderRadius.circular(changeButton ? 50 : 8),
                   child: InkWell(
                     onTap: () => moveToHome(context),

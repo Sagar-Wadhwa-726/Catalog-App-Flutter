@@ -111,3 +111,18 @@ decoder.
 can use the dart data class generator.
 
 34.) Every scrollable item has a SliverGridDelegate behind it
+
+------------------------------------------------------------------
+ANIMATION NOTES
+
+1.) For animation, HERO has been used which uses a tag to associate the image at two 
+different places. On clicking the list, we are animating the image. It is used for shared transition.
+To acheive this, give the tag which is the catalog id on the list page and on the details pages. The 
+tag has to be given the image since on the image the animation is applied.
+
+-------------------------------------------------------------------------
+NOTES RELATED TO SINGLETON CLASS 
+
+1.) The problem that was arising was that everytime we pressed on the button a new object
+was being created, to solve this problem make the class as singleton class
+which means that only one object of that class will be created. 

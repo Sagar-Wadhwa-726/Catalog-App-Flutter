@@ -1,9 +1,14 @@
-// ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors, unused_local_variable
+// ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors, unused_local_variable, prefer_const_literals_to_create_immutables, avoid_print, deprecated_member_use
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/models/catalog.dart';
+import 'package:flutter_application_1/utils/routes.dart';
+
 import 'dart:convert';
-import '../widgets/drawer.dart';
+import 'package:velocity_x/velocity_x.dart';
+import '../widgets/home_widgets/catalog_header.dart';
+import '../widgets/home_widgets/catalog_list.dart';
 
 // Converted HomePage to stateful widget since on the home page firstly data will
 // loaded and then the data will be displayed, it is not static / hard coded data
@@ -57,57 +62,29 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     // Scaffold is a widget, material is a widget
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: (CatalogModel.items.isNotEmpty)
-            ? GridView.builder(
-                // Specifies the number of items in each row
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 16,
-                  crossAxisSpacing: 16,
-                ),
-                itemBuilder: (context, index) {
-                  final item = CatalogModel.items[index];
-                  return Card(
-                    clipBehavior: Clip.antiAlias,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: GridTile(
-                      header: Container(
-                        padding: EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: Colors.deepPurple,
-                        ),
-                        child: Text(
-                          item.name,
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                      footer: Container(
-                        padding: EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: Colors.black,
-                        ),
-                        child: Text(
-                          item.price.toString(),
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                      child: Image.network(item.image),
-                    ),
-                  );
-                },
-                itemCount: CatalogModel.items.length,
-              )
-            : Center(
-                child: CircularProgressIndicator(),
-              ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: context.theme.buttonColor,
+        onPressed: () => Navigator.pushNamed(context, MyRoutes.cartRoute),
+        child: Icon(
+          CupertinoIcons.cart_fill,
+          color: Colors.white,
+        ),
       ),
-      drawer: MyDrawer(),
+      backgroundColor: context.canvasColor,
+      body: SafeArea(
+        child: Container(
+          padding: Vx.m32,
+          child: Column(
+            children: [
+              CatalogHeader(),
+              if (CatalogModel.items.isNotEmpty)
+                CatalogList().py20().expand()
+              else
+                CircularProgressIndicator().centered().expand(),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

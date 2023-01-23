@@ -1,9 +1,23 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+// ignore_for_file: public_member_api_docs, sort_constructors_first, null_closures
 import 'dart:convert';
 
 // ignore_for_file: non_constant_identifier_names
+
 class CatalogModel {
+  // Craeting the class as a singleton class
+  static final CatalogModel catalogModel = CatalogModel._internal();
+
+  factory CatalogModel() => catalogModel;
+
+  CatalogModel._internal();
+
   static List<Items> items = [];
+
+  // Get item by ID
+  Items getById(int id) =>
+      items.firstWhere((element) => element.id == id, orElse: null);
+  // Get item by position
+  Items getByPosition(int pos) => items[pos];
 }
 
 class Items {
