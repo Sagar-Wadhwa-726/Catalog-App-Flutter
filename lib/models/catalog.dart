@@ -4,13 +4,6 @@ import 'dart:convert';
 // ignore_for_file: non_constant_identifier_names
 
 class CatalogModel {
-  // Craeting the class as a singleton class
-  static final CatalogModel catalogModel = CatalogModel._internal();
-
-  factory CatalogModel() => catalogModel;
-
-  CatalogModel._internal();
-
   static List<Items> items = [];
 
   // Get item by ID

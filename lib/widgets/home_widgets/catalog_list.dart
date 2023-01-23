@@ -13,25 +13,47 @@ class CatalogList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: CatalogModel.items.length,
-      itemBuilder: ((context, index) {
-        final catalog = CatalogModel.items[index];
-        return InkWell(
-          onTap: () => Navigator.push(
-            context,
-            // Since we have to pass the catalog clicked
-            MaterialPageRoute(
-              builder: (context) => HomeDetails(
-                catalog: catalog,
-              ),
-            ),
-          ),
-          child: CatalogItem(catalog: catalog),
-        );
-      }),
-    );
+    return context.isMobile
+        ? ListView.builder(
+            shrinkWrap: true,
+            itemCount: CatalogModel.items.length,
+            itemBuilder: ((context, index) {
+              final catalog = CatalogModel.items[index];
+              return InkWell(
+                onTap: () => Navigator.push(
+                  context,
+                  // Since we have to pass the catalog clicked
+                  MaterialPageRoute(
+                    builder: (context) => HomeDetails(
+                      catalog: catalog,
+                    ),
+                  ),
+                ),
+                child: CatalogItem(catalog: catalog),
+              );
+            }),
+          )
+        : GridView.builder(
+            gridDelegate:
+                SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+            shrinkWrap: true,
+            itemCount: CatalogModel.items.length,
+            itemBuilder: ((context, index) {
+              final catalog = CatalogModel.items[index];
+              return InkWell(
+                onTap: () => Navigator.push(
+                  context,
+                  // Since we have to pass the catalog clicked
+                  MaterialPageRoute(
+                    builder: (context) => HomeDetails(
+                      catalog: catalog,
+                    ),
+                  ),
+                ),
+                child: CatalogItem(catalog: catalog),
+              );
+            }),
+          );
   }
 }
 

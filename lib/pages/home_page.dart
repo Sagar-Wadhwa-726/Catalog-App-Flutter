@@ -1,14 +1,16 @@
-// ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors, unused_local_variable, prefer_const_literals_to_create_immutables, avoid_print, deprecated_member_use
+// ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors, unused_local_variable, prefer_const_literals_to_create_immutables, avoid_print, deprecated_member_use, no_leading_underscores_for_local_identifiers
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_application_1/core/store.dart';
+import 'package:flutter_application_1/models/cart.dart';
 import 'package:flutter_application_1/models/catalog.dart';
 import 'package:flutter_application_1/utils/routes.dart';
-
 import 'dart:convert';
 import 'package:velocity_x/velocity_x.dart';
 import '../widgets/home_widgets/catalog_header.dart';
 import '../widgets/home_widgets/catalog_list.dart';
+// import 'package:http/http.dart' as http;
+import 'package:flutter/services.dart';
 
 // Converted HomePage to stateful widget since on the home page firstly data will
 // loaded and then the data will be displayed, it is not static / hard coded data
@@ -25,7 +27,7 @@ class _HomePageState extends State<HomePage> {
   // override the init method. When the class is initialised this method is called (before build).
   // Till now the widget has not been created but its state will be initilaised to new state from this
   // method. Since this method is called before build, we can pass the data from initState to build
-
+  final String url = "https://api.jsonbin.io/v3/b/63ce9fadebd26539d065e4f6";
   @override
   void initState() {
     super.initState();
@@ -40,6 +42,9 @@ class _HomePageState extends State<HomePage> {
     // catalogJson is a string
     final catalogJson =
         await rootBundle.loadString("assets/files/catalog.json");
+
+    // final response = await http.get(Uri.parse(url));
+    // final catalogJson = response.body;
 
     // encode: object -> string
     // decode: string -> object
@@ -58,16 +63,29 @@ class _HomePageState extends State<HomePage> {
     setState(() {});
   }
 
+/*On adding or removing the item from the cart, the number on the badge of floating cart
+should also change, means rebuild only that widget not the entire widget tree. This can
+be done using VxConsumer() */
   @override
   Widget build(BuildContext context) {
     // Scaffold is a widget, material is a widget
+    // Get the cart from the store
+    final _cart = (VxState.store as MyStore).cart;
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: context.theme.buttonColor,
-        onPressed: () => Navigator.pushNamed(context, MyRoutes.cartRoute),
-        child: Icon(
-          CupertinoIcons.cart_fill,
-          color: Colors.white,
+      floatingActionButton: VxBuilder(
+        mutations: {AddMutation, RemoveMutation},
+        builder: (context, store, status) => FloatingActionButton(
+          backgroundColor: context.theme.buttonColor,
+          onPressed: () => Navigator.pushNamed(context, MyRoutes.cartRoute),
+          child: Icon(
+            CupertinoIcons.cart_fill,
+            color: Colors.white,
+          ),
+        ).badge(
+          color: Colors.red,
+          count: _cart.items.length,
+          size: 20,
+          textStyle: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
         ),
       ),
       backgroundColor: context.canvasColor,

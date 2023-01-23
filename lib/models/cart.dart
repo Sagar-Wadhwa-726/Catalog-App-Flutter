@@ -2,20 +2,11 @@
 // ignore_for_file: unused_field, unnecessary_getters_setters, unnecessary_null_comparison
 
 import 'package:flutter_application_1/models/catalog.dart';
+import 'package:velocity_x/velocity_x.dart';
 
-// Singleton class, since earlier multiple objects were being created and each object has its own
-// initial value which is different than the final value that we want.
+import '../core/store.dart';
+
 class CartModel {
-  static final CartModel cartModel = CartModel._internal();
-
-  // Use factory constructor when we don't want to create a new instance of this class,
-  // this will be returning the static object which was created for the first time.s
-  factory CartModel() {
-    return cartModel;
-  }
-
-  CartModel._internal();
-
   // Catalog field
   late CatalogModel _catalog;
 
@@ -37,14 +28,24 @@ class CartModel {
   // Get the total price
   num get totalPrice => items.fold(
       0, (totalValue, currentValue) => totalValue + currentValue.price);
+}
 
-  // Method to add items to the cart
-  void addToCart(Items item) {
-    _itemIds.add(item.id);
+class AddMutation extends VxMutation<MyStore> {
+  final Items item;
+  AddMutation(this.item);
+
+  @override
+  perform() {
+    store?.cart._itemIds.add(item.id);
   }
+}
 
-  // Method to remove items from the cart
-  void removeFromCart(Items item) {
-    _itemIds.remove(item.id);
+class RemoveMutation extends VxMutation<MyStore> {
+  final Items item;
+  RemoveMutation(this.item);
+
+  @override
+  perform() {
+    store?.cart._itemIds.remove(item.id);
   }
 }

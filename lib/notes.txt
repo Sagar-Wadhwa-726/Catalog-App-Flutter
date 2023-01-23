@@ -126,3 +126,5 @@ NOTES RELATED TO SINGLETON CLASS
 1.) The problem that was arising was that everytime we pressed on the button a new object
 was being created, to solve this problem make the class as singleton class
 which means that only one object of that class will be created. 
+
+2.) For networking, install the HTTP package from flutter.dev
